@@ -15,7 +15,7 @@ extension Related on InnerTube {
     final response = await client.post(
       buildUri(InnerTube.browse),
       headers: getHeaders(mask: mask),
-      body: jsonEncode({...getContext(), 'browseId': 'MPTRt_tQMNz4T7xyd'}),
+      body: jsonEncode({...getContext(), 'browseId': 'MPTRt_bIDdM9xXSHa-1'}),
     );
 
     if (response.statusCode == 200) {
