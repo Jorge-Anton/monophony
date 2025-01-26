@@ -448,6 +448,15 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.0"
+  miniplayer:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: "4f5d11a7a629885bbe30b4ef0ef59e02cb8316cd"
+      url: "https://github.com/Jorge-Anton/miniplayer.git"
+    source: git
+    version: "1.0.3"
   octo_image:
     dependency: transitive
     description:

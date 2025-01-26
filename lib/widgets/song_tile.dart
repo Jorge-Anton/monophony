@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:monophony/controllers/my_mini_player_controller.dart';
 import 'package:monophony/controllers/song_notifier.dart';
 import 'package:monophony/models/song_model.dart';
 import 'package:monophony/services/service_locator.dart';
@@ -16,13 +17,10 @@ class SongTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        // Navigate to the song details page
-        final SongModel? currentSong = getIt<SongNotifier>().currentSong;
-        if (currentSong == null) {
-          getIt<SongNotifier>().playSong(song);
-        } else {
-          getIt<SongNotifier>().stopSong();
-        }
+        getIt<SongNotifier>().playSong(song);
+        getIt<MyMiniPlayerController>().playerExpandProgress.value =
+            90 + MediaQuery.of(context).viewPadding.bottom;
+        getIt<MyMiniPlayerController>().dragDownPercentage.value = 0;
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(
