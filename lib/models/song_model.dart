@@ -7,6 +7,7 @@ class SongModel extends Equatable {
   final String? artistsText;
   final String? durationText;
   final String thumbnailUrl;
+  final String bestThumbnailUrl;
   final int? likedAt;
   final int totalPlayTimeMs;
 
@@ -16,6 +17,7 @@ class SongModel extends Equatable {
     this.artistsText,
     this.durationText,
     required this.thumbnailUrl,
+    required this.bestThumbnailUrl,
     this.likedAt,
     this.totalPlayTimeMs = 0,
   });
@@ -57,6 +59,7 @@ class SongModel extends Equatable {
       'artists_text': artistsText,
       'duration_text': durationText,
       'thumbnail_url': thumbnailUrl,
+      'best_thumbnail_url': bestThumbnailUrl,
       'liked_at': likedAt,
       'total_play_time_ms': totalPlayTimeMs,
     };
@@ -69,6 +72,7 @@ class SongModel extends Equatable {
       artistsText: map['artists_text'],
       durationText: map['duration_text'],
       thumbnailUrl: map['thumbnail_url'],
+      bestThumbnailUrl: map['best_thumbnail_url'],
       likedAt: map['liked_at'],
       totalPlayTimeMs: map['total_play_time_ms'] ?? 0,
     );
@@ -80,6 +84,7 @@ class SongModel extends Equatable {
     String? artistsText,
     String? durationText,
     String? thumbnailUrl,
+    String? bestThumbnailUrl,
     int? likedAt,
     int? totalPlayTimeMs,
   }) {
@@ -89,6 +94,7 @@ class SongModel extends Equatable {
       artistsText: artistsText ?? this.artistsText,
       durationText: durationText ?? this.durationText,
       thumbnailUrl: thumbnailUrl ?? this.thumbnailUrl,
+      bestThumbnailUrl: bestThumbnailUrl ?? this.bestThumbnailUrl,
       likedAt: likedAt,
       totalPlayTimeMs: totalPlayTimeMs ?? this.totalPlayTimeMs,
     );
@@ -120,11 +126,14 @@ class SongModel extends Equatable {
       throw Exception('Failed to parse song title');
     }
 
-    final String? thumbnailUrl = musicResponsiveListItemRenderer.thumbnail
-        ?.musicThumbnailRenderer?.thumbnail?.thumbnails?.firstOrNull?.url;
+    final thumbnails = musicResponsiveListItemRenderer
+        .thumbnail?.musicThumbnailRenderer?.thumbnail?.thumbnails;
 
-    if (thumbnailUrl == null) {
-      throw Exception('Failed to parse song thumbnail URL');
+    final String? thumbnailUrl = thumbnails?.firstOrNull?.url;
+    final String? bestThumbnailUrl = thumbnails?.lastOrNull?.url;
+
+    if (thumbnailUrl == null || bestThumbnailUrl == null) {
+      throw Exception('Failed to parse song thumbnail URLs');
     }
 
     final columns = musicResponsiveListItemRenderer.flexColumns
@@ -137,6 +146,7 @@ class SongModel extends Equatable {
       title: title,
       artistsText: columns.length > 1 ? columns[1] : null,
       thumbnailUrl: thumbnailUrl,
+      bestThumbnailUrl: bestThumbnailUrl,
     );
   }
 
