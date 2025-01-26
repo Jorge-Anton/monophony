@@ -38,14 +38,16 @@ class _MyMiniPlayerState extends State<MyMiniPlayer> {
         builder: (context, child) {
           if (songNotifier.currentSong == null) return const SizedBox.shrink();
           return Miniplayer(
-            minHeight: 90 + MediaQuery.of(context).viewPadding.bottom,
-            maxHeight: MediaQuery.of(context).size.height * 3 / 4,
+            minHeight: 84 + MediaQuery.of(context).viewPadding.bottom + 14,
+            maxHeight: MediaQuery.of(context).size.height * 4 / 5,
             curve: Cubic(0.32, 0.72, 0, 1),
             duration: Durations.medium3,
             tapToCollapse: false,
             controller: myMiniPlayerController.controller,
             valueNotifier: myMiniPlayerController.playerExpandProgress,
             dragDownPercentage: myMiniPlayerController.dragDownPercentage,
+            elevation: 0,
+            backgroundColor: Colors.black,
             onDismissed: () {
               songNotifier.stopSong();
             },
@@ -53,40 +55,58 @@ class _MyMiniPlayerState extends State<MyMiniPlayer> {
               return Container(
                 color: Colors.black,
                 child: Padding(
-                  padding: EdgeInsets.only(bottom: 24),
+                  padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).viewPadding.bottom + 14),
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       Container(
-                        height: 3,
-                        width: 35,
-                        margin: const EdgeInsets.only(top: 8),
+                        height: 4,
+                        width: 24,
+                        margin: const EdgeInsets.only(top: 12, bottom: 8),
                         decoration: BoxDecoration(
-                          color: Color(0xFF939393),
+                          color: Colors.grey[800],
                           borderRadius: BorderRadius.circular(2),
                         ),
                       ),
-                      Expanded(
+                      SizedBox(
+                        height: 60,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
-                            horizontal: 36.0,
+                            horizontal: 24.0,
                           ),
                           child: Row(
                             children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(8),
-                                child: CachedNetworkImage(
-                                  imageUrl:
-                                      songNotifier.currentSong!.thumbnailUrl,
-                                  height: 60,
-                                  width: 60,
-                                  placeholder: (context, url) {
-                                    return Container(
-                                      color: Color(0xFF939393),
-                                      width: 60,
-                                      height: 60,
-                                    );
-                                  },
+                              SizedBox(
+                                width: 60,
+                                height: 60,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(8),
+                                  child: CachedNetworkImage(
+                                    imageUrl:
+                                        songNotifier.currentSong!.thumbnailUrl,
+                                    height: 60,
+                                    width: 60,
+                                    fit: BoxFit.cover,
+                                    placeholder: (context, url) {
+                                      return Container(
+                                        color: Colors.grey[850],
+                                        width: 60,
+                                        height: 60,
+                                      );
+                                    },
+                                    errorWidget: (context, url, error) {
+                                      return Container(
+                                        color: Colors.grey[850],
+                                        width: 60,
+                                        height: 60,
+                                        child: Icon(
+                                          Icons.error,
+                                          color: Colors.white,
+                                        ),
+                                      );
+                                    },
+                                  ),
                                 ),
                               ),
                               const SizedBox(width: 12),
@@ -96,7 +116,7 @@ class _MyMiniPlayerState extends State<MyMiniPlayer> {
                                 children: [
                                   SizedBox(
                                     width:
-                                        MediaQuery.of(context).size.width - 144,
+                                        MediaQuery.of(context).size.width - 120,
                                     child: Row(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
@@ -111,7 +131,7 @@ class _MyMiniPlayerState extends State<MyMiniPlayer> {
                                                 maxLines: 1,
                                                 overflow: TextOverflow.ellipsis,
                                                 style: TextStyle(
-                                                  fontSize: 16,
+                                                  fontSize: 14,
                                                   fontWeight: FontWeight.w600,
                                                   color: Theme.of(context)
                                                       .colorScheme
@@ -125,8 +145,9 @@ class _MyMiniPlayerState extends State<MyMiniPlayer> {
                                                 maxLines: 1,
                                                 overflow: TextOverflow.ellipsis,
                                                 style: TextStyle(
+                                                  fontSize: 12,
                                                   fontWeight: FontWeight.w500,
-                                                  color: Color(0xFF939393),
+                                                  color: Colors.grey[500],
                                                 ),
                                               ),
                                             ],
@@ -149,16 +170,15 @@ class _MyMiniPlayerState extends State<MyMiniPlayer> {
                                     ),
                                   ),
                                   const SizedBox(
-                                    height: 8,
+                                    height: 12,
                                   ),
                                   SizedBox(
                                     width:
-                                        MediaQuery.of(context).size.width - 144,
+                                        MediaQuery.of(context).size.width - 120,
                                     height: 2,
                                     child: CustomSlider(
                                       activeTrackColor: Colors.white,
-                                      inactiveTrackColor:
-                                          const Color(0xFF6A6A6A),
+                                      inactiveTrackColor: Colors.grey[800],
                                       value: 0.3,
                                       onChanged: (value) {},
                                       trackShape: CustomSliderTrackShape(),
@@ -196,8 +216,8 @@ class MyMiniPlayerPainter extends CustomPainter {
     path.lineTo(size.width - radius, radius);
     path.arcToPoint(Offset(size.width, 0),
         radius: Radius.circular(radius), clockwise: false);
-    path.lineTo(size.width, radius);
-    path.lineTo(0, radius);
+    path.lineTo(size.width, radius + 2);
+    path.lineTo(0, radius + 2);
     canvas.drawPath(path, Paint()..color = Colors.black);
   }
 

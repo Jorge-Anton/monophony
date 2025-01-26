@@ -6,6 +6,7 @@ import 'package:monophony/pages/root/root_page.dart';
 import 'package:monophony/services/service_locator.dart';
 import 'package:monophony/utils/multi_value_listenable.dart';
 import 'package:monophony/widgets/my_mini_player.dart';
+import 'dart:ui';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -79,32 +80,132 @@ class OverlayPage extends StatelessWidget {
             shouldAnimate = true;
           }
 
+          final minPlayerHeight =
+              84 + MediaQuery.of(context).viewPadding.bottom + 14;
+          final maxPlayerHeight = MediaQuery.of(context).size.height * 4 / 5;
+
+          // Calculate thresholds
+          final blurThreshold = maxPlayerHeight * 0.9;
+          final opacityThreshold = maxPlayerHeight * 0.75;
+
+          // Only show hint when fully expanded
+          final isFullyExpanded = playerExpandProgress >= maxPlayerHeight;
+
+          // Calculate other progress values
+          final blurProgress = playerExpandProgress > blurThreshold
+              ? (playerExpandProgress - blurThreshold) /
+                  (maxPlayerHeight - blurThreshold)
+              : 0.0;
+          final opacityProgress = playerExpandProgress > opacityThreshold
+              ? (playerExpandProgress - opacityThreshold) /
+                  (maxPlayerHeight - opacityThreshold)
+              : 0.0;
+
           return Stack(
             children: [
-              child!,
-              AnimatedPositioned(
-                duration: duration,
-                curve: const Cubic(0.32, 0.72, 0, 1),
-                right: 0,
-                left: 0,
-                bottom: 50 + playerExpandProgress * (1 - dragDownPercentage),
-                child: CustomPaint(
-                  painter: MyMiniPlayerPainter(radius: 50),
-                ),
-              ),
+              Transform.translate(
+                  offset: Offset(
+                    0,
+                    currentSong == null
+                        ? 0
+                        : -playerExpandProgress + minPlayerHeight,
+                  ),
+                  child: Stack(
+                    children: [
+                      child!,
+                      Positioned.fill(
+                        child: IgnorePointer(
+                          ignoring: !isFullyExpanded,
+                          child: BackdropFilter(
+                            filter: ImageFilter.blur(
+                              sigmaX:
+                                  currentSong == null ? 0 : 32 * blurProgress,
+                              sigmaY:
+                                  currentSong == null ? 0 : 32 * blurProgress,
+                            ),
+                            child: Container(
+                              color: Colors.white.withAlpha((currentSong == null
+                                      ? 0
+                                      : 200 * opacityProgress)
+                                  .toInt()),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SwipeHint(isFullyExpanded: isFullyExpanded)
+                    ],
+                  )),
               AnimatedPositioned(
                 duration: Durations.medium3,
                 curve: const Cubic(0.32, 0.72, 0, 1),
                 left: 0,
                 right: 0,
                 bottom: currentSong == null
-                    ? -90 - MediaQuery.of(context).viewPadding.bottom
+                    ? -84 - MediaQuery.of(context).viewPadding.bottom - 14
                     : 0,
                 child: const MyMiniPlayer(),
+              ),
+              AnimatedPositioned(
+                duration: duration,
+                curve: const Cubic(0.32, 0.72, 0, 1),
+                right: 0,
+                left: 0,
+                bottom: MediaQuery.viewPaddingOf(context).top +
+                    playerExpandProgress * (1 - dragDownPercentage),
+                child: CustomPaint(
+                  painter: MyMiniPlayerPainter(
+                    radius: MediaQuery.viewPaddingOf(context).top,
+                  ),
+                ),
               )
             ],
           );
         },
+      ),
+    );
+  }
+}
+
+class SwipeHint extends StatelessWidget {
+  const SwipeHint({
+    super.key,
+    required this.isFullyExpanded,
+  });
+
+  final bool isFullyExpanded;
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedPositioned(
+      left: 0,
+      right: 0,
+      bottom: isFullyExpanded
+          ? MediaQuery.sizeOf(context).height * 0.2
+          : MediaQuery.sizeOf(context).height * 0.15,
+      duration: Durations.medium3,
+      curve: const Cubic(0.32, 0.72, 0, 1),
+      child: AnimatedOpacity(
+        opacity: isFullyExpanded ? 1 : 0,
+        duration: Durations.medium3,
+        curve: const Cubic(0.32, 0.72, 0, 1),
+        child: Row(
+          spacing: 8,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.swipe_down_outlined,
+              color: Colors.grey[600],
+              size: 18,
+            ),
+            Text(
+              'Desliza hacia abajo',
+              style: TextStyle(
+                fontWeight: FontWeight.w500,
+                color: Colors.grey[600],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

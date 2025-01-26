@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class CustomSlider extends StatelessWidget {
-  final Color activeTrackColor;
-  final Color inactiveTrackColor;
+  final Color? activeTrackColor;
+  final Color? inactiveTrackColor;
   final double value;
   final ValueChanged<double> onChanged;
   final SliderTrackShape trackShape;

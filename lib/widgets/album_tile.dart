@@ -35,10 +35,7 @@ class AlbumTile extends StatelessWidget {
                       imageUrl: newAlbum.thumbnailUrl,
                       placeholder: (context, url) {
                         return Container(
-                          color: Theme.of(context)
-                              .colorScheme
-                              .onSurface
-                              .withAlpha(180),
+                          color: Colors.grey[500],
                           width: (MediaQuery.of(context).size.width - 67 - 40) /
                                   2 -
                               32,
@@ -46,6 +43,17 @@ class AlbumTile extends StatelessWidget {
                               (MediaQuery.of(context).size.width - 67 - 40) /
                                       2 -
                                   32,
+                        );
+                      },
+                      errorWidget: (context, url, error) {
+                        return Container(
+                          color: Colors.grey[500],
+                          width: 60,
+                          height: 60,
+                          child: Icon(
+                            Icons.error,
+                            color: Colors.white,
+                          ),
                         );
                       },
                     ),
@@ -85,9 +93,7 @@ class AlbumTile extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
                 style: TextStyle(
-                    color:
-                        Theme.of(context).colorScheme.onSurface.withAlpha(180),
-                    fontWeight: FontWeight.w500),
+                    color: Colors.grey[700], fontWeight: FontWeight.w500),
               ),
             ],
           ),

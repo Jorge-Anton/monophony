@@ -41,7 +41,7 @@ class NavigationButton extends StatelessWidget {
                   quarterTurns: quarterTurns,
                   child: Icon(
                     icon,
-                    color: Theme.of(context).colorScheme.onSurface,
+                    color: Colors.black,
                   ),
                 ),
               ),
@@ -50,9 +50,7 @@ class NavigationButton extends StatelessWidget {
               duration: Durations.short3,
               curve: const Cubic(0.32, 0.72, 0, 1),
               style: TextStyle(
-                color: active
-                    ? Theme.of(context).colorScheme.onSurface
-                    : Theme.of(context).colorScheme.onSurface.withAlpha(180),
+                color: active ? Colors.black : Colors.grey[700],
               ),
               child: Text(
                 text,

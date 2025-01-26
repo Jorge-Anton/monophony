@@ -16,7 +16,7 @@ class SortingButtons extends StatelessWidget {
             onPressed: () {},
             icon: Icon(
               Icons.trending_up_rounded,
-              color: Theme.of(context).colorScheme.onSurface.withAlpha(180),
+              color: Colors.grey[700],
             ),
           ),
         ),
@@ -29,7 +29,7 @@ class SortingButtons extends StatelessWidget {
               style: TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: 16,
-                color: Theme.of(context).colorScheme.onSurface.withAlpha(180),
+                color: Colors.grey[700],
               ),
             ),
             // iconSize: 22,

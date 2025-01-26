@@ -32,9 +32,20 @@ class TrendingArtistTile extends StatelessWidget {
                 width: 60,
                 placeholder: (context, url) {
                   return Container(
-                    color: Color(0xFF939393),
+                    color: Colors.grey[600],
                     width: 60,
                     height: 60,
+                  );
+                },
+                errorWidget: (context, url, error) {
+                  return Container(
+                    color: Colors.grey[500],
+                    width: 60,
+                    height: 60,
+                    child: Icon(
+                      Icons.error,
+                      color: Colors.white,
+                    ),
                   );
                 },
               ),
@@ -62,10 +73,7 @@ class TrendingArtistTile extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
-                      color: Theme.of(context)
-                          .colorScheme
-                          .onSurface
-                          .withAlpha(180),
+                      color: Colors.grey[700],
                     ),
                   ),
                 ],

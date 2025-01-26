@@ -19,7 +19,7 @@ class SongTile extends StatelessWidget {
       onTap: () {
         getIt<SongNotifier>().playSong(song);
         getIt<MyMiniPlayerController>().playerExpandProgress.value =
-            90 + MediaQuery.of(context).viewPadding.bottom;
+            84 + MediaQuery.of(context).viewPadding.bottom + 14;
         getIt<MyMiniPlayerController>().dragDownPercentage.value = 0;
       },
       child: Padding(
@@ -38,10 +38,20 @@ class SongTile extends StatelessWidget {
                 height: 60,
                 placeholder: (context, url) {
                   return Container(
-                    color:
-                        Theme.of(context).colorScheme.onSurface.withAlpha(180),
+                    color: Colors.grey[700],
                     width: 60,
                     height: 60,
+                  );
+                },
+                errorWidget: (context, url, error) {
+                  return Container(
+                    color: Colors.grey[500],
+                    width: 60,
+                    height: 60,
+                    child: Icon(
+                      Icons.error,
+                      color: Colors.white,
+                    ),
                   );
                 },
               ),
@@ -68,10 +78,7 @@ class SongTile extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
-                        color: Theme.of(context)
-                            .colorScheme
-                            .onSurface
-                            .withAlpha(180),
+                        color: Colors.grey[700],
                       ),
                     ),
                   ],

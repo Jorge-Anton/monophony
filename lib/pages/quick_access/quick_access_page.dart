@@ -90,7 +90,7 @@ class _QuickAccessPageState extends State<QuickAccessPage> {
                       if (trendingArtists.isNotEmpty)
                         QuickTrendingArtists(trendingArtists: trendingArtists),
                       SizedBox(
-                        height: MediaQuery.of(context).viewPadding.bottom,
+                        height: MediaQuery.of(context).viewPadding.bottom + 14,
                       ),
                       ListenableBuilder(
                         listenable: getIt<SongNotifier>(),
@@ -99,7 +99,7 @@ class _QuickAccessPageState extends State<QuickAccessPage> {
                             duration: Durations.medium3,
                             curve: Cubic(0.32, 0.72, 0, 1),
                             height: getIt<SongNotifier>().currentSong != null
-                                ? 120
+                                ? 84
                                 : 0,
                           );
                         },

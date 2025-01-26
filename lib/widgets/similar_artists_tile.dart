@@ -31,12 +31,20 @@ class SimilarArtistsTile extends StatelessWidget {
                   width: 100,
                   placeholder: (context, url) {
                     return Container(
-                      color: Theme.of(context)
-                          .colorScheme
-                          .onSurface
-                          .withAlpha(180),
+                      color: Colors.grey[500],
                       width: 100,
                       height: 100,
+                    );
+                  },
+                  errorWidget: (context, url, error) {
+                    return Container(
+                      color: Colors.grey[500],
+                      width: 60,
+                      height: 60,
+                      child: Icon(
+                        Icons.error,
+                        color: Colors.white,
+                      ),
                     );
                   },
                 ),
@@ -56,7 +64,7 @@ class SimilarArtistsTile extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   fontSize: 12,
-                  color: Theme.of(context).colorScheme.onSurface.withAlpha(180),
+                  color: Colors.grey[700],
                   fontWeight: FontWeight.w500,
                 ),
               ),
