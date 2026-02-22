@@ -130,11 +130,12 @@ class SongModel extends Equatable {
         .thumbnail?.musicThumbnailRenderer?.thumbnail?.thumbnails;
 
     final String? thumbnailUrl = thumbnails?.firstOrNull?.url;
-    final String? bestThumbnailUrl = thumbnails?.lastOrNull?.url;
 
-    if (thumbnailUrl == null || bestThumbnailUrl == null) {
+    if (thumbnailUrl == null) {
       throw Exception('Failed to parse song thumbnail URLs');
     }
+
+    final String bestThumbnailUrl = '$thumbnailUrl-w800-h800';
 
     final columns = musicResponsiveListItemRenderer.flexColumns
         .map((col) => col.musicResponsiveListItemFlexColumnRenderer?.text?.text)
