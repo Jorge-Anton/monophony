@@ -13,11 +13,7 @@ class BrowseResponse {
   final Header? header;
   final Microformat? microformat;
 
-  const BrowseResponse({
-    this.contents,
-    this.header,
-    this.microformat,
-  });
+  const BrowseResponse({this.contents, this.header, this.microformat});
 
   factory BrowseResponse.fromJson(Map<String, dynamic> json) =>
       _$BrowseResponseFromJson(json);

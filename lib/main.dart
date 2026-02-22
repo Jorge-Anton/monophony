@@ -94,47 +94,46 @@ class OverlayPage extends StatelessWidget {
           // Calculate other progress values
           final blurProgress = playerExpandProgress > blurThreshold
               ? (playerExpandProgress - blurThreshold) /
-                  (maxPlayerHeight - blurThreshold)
+                    (maxPlayerHeight - blurThreshold)
               : 0.0;
           final opacityProgress = playerExpandProgress > opacityThreshold
               ? (playerExpandProgress - opacityThreshold) /
-                  (maxPlayerHeight - opacityThreshold)
+                    (maxPlayerHeight - opacityThreshold)
               : 0.0;
 
           return Stack(
             children: [
               Transform.translate(
-                  offset: Offset(
-                    0,
-                    currentSong == null
-                        ? 0
-                        : -playerExpandProgress + minPlayerHeight,
-                  ),
-                  child: Stack(
-                    children: [
-                      child!,
-                      Positioned.fill(
-                        child: IgnorePointer(
-                          ignoring: !isFullyExpanded,
-                          child: BackdropFilter(
-                            filter: ImageFilter.blur(
-                              sigmaX:
-                                  currentSong == null ? 0 : 32 * blurProgress,
-                              sigmaY:
-                                  currentSong == null ? 0 : 32 * blurProgress,
-                            ),
-                            child: Container(
-                              color: Colors.white.withAlpha((currentSong == null
-                                      ? 0
-                                      : 200 * opacityProgress)
-                                  .toInt()),
+                offset: Offset(
+                  0,
+                  currentSong == null
+                      ? 0
+                      : -playerExpandProgress + minPlayerHeight,
+                ),
+                child: Stack(
+                  children: [
+                    child!,
+                    Positioned.fill(
+                      child: IgnorePointer(
+                        ignoring: !isFullyExpanded,
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(
+                            sigmaX: currentSong == null ? 0 : 32 * blurProgress,
+                            sigmaY: currentSong == null ? 0 : 32 * blurProgress,
+                          ),
+                          child: Container(
+                            color: Colors.white.withAlpha(
+                              (currentSong == null ? 0 : 200 * opacityProgress)
+                                  .toInt(),
                             ),
                           ),
                         ),
                       ),
-                      SwipeHint(isFullyExpanded: isFullyExpanded)
-                    ],
-                  )),
+                    ),
+                    SwipeHint(isFullyExpanded: isFullyExpanded),
+                  ],
+                ),
+              ),
               AnimatedPositioned(
                 duration: Durations.medium3,
                 curve: const Cubic(0.32, 0.72, 0, 1),
@@ -150,14 +149,15 @@ class OverlayPage extends StatelessWidget {
                 curve: const Cubic(0.32, 0.72, 0, 1),
                 right: 0,
                 left: 0,
-                bottom: MediaQuery.viewPaddingOf(context).top +
+                bottom:
+                    MediaQuery.viewPaddingOf(context).top +
                     playerExpandProgress * (1 - dragDownPercentage),
                 child: CustomPaint(
                   painter: MyMiniPlayerPainter(
                     radius: MediaQuery.viewPaddingOf(context).top,
                   ),
                 ),
-              )
+              ),
             ],
           );
         },
@@ -167,10 +167,7 @@ class OverlayPage extends StatelessWidget {
 }
 
 class SwipeHint extends StatelessWidget {
-  const SwipeHint({
-    super.key,
-    required this.isFullyExpanded,
-  });
+  const SwipeHint({super.key, required this.isFullyExpanded});
 
   final bool isFullyExpanded;
 
@@ -192,11 +189,7 @@ class SwipeHint extends StatelessWidget {
           spacing: 8,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.swipe_down_outlined,
-              color: Colors.grey[600],
-              size: 18,
-            ),
+            Icon(Icons.swipe_down_outlined, color: Colors.grey[600], size: 18),
             Text(
               'Desliza hacia abajo',
               style: TextStyle(
